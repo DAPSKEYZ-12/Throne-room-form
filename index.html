@@ -151,13 +151,6 @@
 
 <section class="form-section" id="reg">
 
-  <div class="setup-banner" id="setup-note">
-    <strong>⚙️ Setup:</strong> Replace <code>YOUR_GOOGLE_SCRIPT_URL</code> in the script with your deployed Apps Script URL. See the comment at the bottom of this file for the Apps Script code to paste.
-    <a href="#" onclick="document.getElementById('setup-note').style.display='none';return false;" style="margin-left:10px;color:var(--gold);font-weight:600;">Dismiss</a>
-  </div>
-
-  <div class="error-banner" id="error-banner">⚠️ Something went wrong. Please try again or contact us directly.</div>
-
   <form id="reg-form" onsubmit="handleSubmit(event)" novalidate>
 
     <div class="form-block">
@@ -251,7 +244,7 @@
 
 <script>
   // 🔧 REPLACE WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
-  const SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbysUK7J_00fuKSusmC9uETigeT4jJmNZKuIc9-UqNQ-Nrk77bWnoK87KvueTmBOQfQ/exec";
 
   function toggleChurch(radio) {
     const input = document.getElementById('church-name');
