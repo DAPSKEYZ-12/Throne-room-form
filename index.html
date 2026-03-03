@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glasshouse Worship – Join the Team</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8860B; --gold-light: #D4A017; --gold-bg: #FFF8E7;
+    --navy: #1A2744; --navy-light: #2C3E6B;
+    --bg: #F5F7FA; --card: #FFFFFF; --text: #1A2744; --text-muted: #6B7A99;
+    --border: #DDE3EF; --border-gold: rgba(184,134,11,0.3);
+    --input-bg: #F8FAFC;
+    --shadow: 0 2px 16px rgba(26,39,68,0.08);
+    --shadow-hover: 0 6px 28px rgba(26,39,68,0.14);
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, var(--navy) 0%, #243158 60%, #1E3A6E 100%);
+    position: relative; overflow: hidden; padding: 80px 20px 90px; text-align: center;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 70% 50% at 50% -10%, rgba(212,160,23,0.22) 0%, transparent 65%),
+      radial-gradient(1.5px 1.5px at 12% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(2px 2px at 65% 10%, rgba(255,255,255,0.45) 0%, transparent 100%),
+      radial-gradient(1px 1px at 83% 30%, rgba(255,255,255,0.35) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 30% 75%, rgba(255,255,255,0.25) 0%, transparent 100%);
+  }
+  .hero-inner { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; }
+  .logo-wrap { margin-bottom: 28px; }
+  .logo-wrap img { width: 180px; height: 180px; object-fit: contain; border-radius: 16px; filter: drop-shadow(0 0 32px rgba(212,160,23,0.5)); }
+  .hero h1 { font-family: 'Cinzel', serif; font-size: clamp(2rem, 5.5vw, 3.5rem); font-weight: 900; letter-spacing: 0.05em; color: #fff; line-height: 1.1; }
+  .hero h1 span { display: block; font-size: 0.42em; letter-spacing: 0.28em; color: var(--gold-light); margin-top: 8px; font-weight: 400; }
+  .hero-divider { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold-light), transparent); margin: 22px auto; }
+  .hero-tagline { font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.85; font-style: italic; }
+  .scroll-cta { margin-top: 36px; }
+  .scroll-cta a {
+    display: inline-block; background: linear-gradient(135deg, var(--gold-light) 0%, #8B6508 100%);
+    color: #fff; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: none; padding: 14px 38px; border-radius: 50px;
+    box-shadow: 0 4px 24px rgba(184,134,11,0.45); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .scroll-cta a:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(184,134,11,0.55); }
+
+  .wave { display: block; width: 100%; height: 60px; margin-bottom: -2px; }
+
+  /* FORM */
+  .form-section { max-width: 800px; margin: 0 auto; padding: 48px 20px 100px; }
+
+  .form-block {
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 36px; margin-bottom: 28px; box-shadow: var(--shadow);
+    transition: box-shadow 0.2s; position: relative; overflow: hidden;
+  }
+  .form-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--navy), var(--gold-light), var(--navy)); }
+  .form-block:hover { box-shadow: var(--shadow-hover); }
+
+  .block-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+  .block-icon { font-size: 1.4rem; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: var(--gold-bg); border: 1.5px solid var(--border-gold); border-radius: 12px; flex-shrink: 0; }
+  .block-header h2 { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 0.07em; color: var(--navy); }
+
+  .field { margin-bottom: 22px; }
+  .field > label { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 10px; line-height: 1.5; }
+  .field label .req { color: var(--gold); margin-left: 3px; }
+
+  input[type="text"], input[type="email"], input[type="tel"], textarea {
+    width: 100%; background: var(--input-bg); border: 1.5px solid var(--border);
+    border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif;
+    font-size: 0.9rem; padding: 11px 15px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  input::placeholder, textarea::placeholder { color: #A8B4C8; }
+  input:focus, textarea:focus { border-color: var(--gold-light); background: #fff; box-shadow: 0 0 0 3px rgba(212,160,23,0.12); }
+  textarea { resize: vertical; min-height: 100px; }
+
+  .radio-group, .check-group { display: flex; flex-wrap: wrap; gap: 10px; }
+  .radio-group.column { flex-direction: column; gap: 8px; }
+  .radio-group label, .check-group label {
+    display: flex; align-items: center; gap: 10px; cursor: pointer;
+    font-size: 0.875rem; font-weight: 500; color: var(--text);
+    background: var(--input-bg); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 10px 16px; transition: all 0.15s; margin: 0; user-select: none;
+  }
+  .radio-group label:hover, .check-group label:hover { border-color: var(--gold-light); background: var(--gold-bg); color: var(--gold); }
+  .radio-group label.selected, .check-group label.selected { border-color: var(--gold-light); background: var(--gold-bg); color: var(--gold); font-weight: 600; }
+  .radio-group input[type="radio"], .check-group input[type="checkbox"] { accent-color: var(--gold-light); width: 16px; height: 16px; flex-shrink: 0; }
+
+  .church-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .church-row input[type="text"] { flex: 1; min-width: 180px; }
+
+  .conditional { display: none; }
+  .conditional.active { display: block; }
+  .sub-block { background: #FAFBFF; border: 1.5px solid #E4EAF7; border-radius: 14px; padding: 24px; margin-top: 12px; }
+  .sub-block h3 { font-family: 'Cinzel', serif; font-size: 0.88rem; letter-spacing: 0.1em; color: var(--navy-light); margin-bottom: 20px; text-transform: uppercase; }
+
+  .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 520px) { .name-row { grid-template-columns: 1fr; } .form-block { padding: 24px 18px; } }
+
+  .submit-wrap { text-align: center; padding-top: 8px; }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--navy) 0%, #2C3E6B 100%);
+    color: #fff; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.12em; text-transform: uppercase;
+    border: none; cursor: pointer; padding: 16px 64px; border-radius: 50px;
+    box-shadow: 0 4px 24px rgba(26,39,68,0.25); transition: transform 0.2s, box-shadow 0.2s;
+    font-family: 'Inter', sans-serif; min-width: 220px;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(26,39,68,0.35); }
+  .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+  .submit-note { margin-top: 14px; font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
+
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-banner { display: none; background: #FFF0F0; border: 1.5px solid #FFBBBB; color: #C0392B; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.875rem; font-weight: 500; }
+
+  #success-msg { display: none; text-align: center; background: var(--card); border-radius: 24px; padding: 64px 32px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+  .check-circle { width: 80px; height: 80px; background: linear-gradient(135deg, var(--navy) 0%, #2C3E6B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 24px; box-shadow: 0 4px 24px rgba(26,39,68,0.25); }
+  #success-msg h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--navy); margin-bottom: 14px; }
+  #success-msg p { color: var(--text-muted); font-size: 1rem; line-height: 1.8; }
+  .verse { color: var(--gold); font-style: italic; }
+
+  .setup-banner { background: #EEF2FF; border: 1.5px solid #C7D7F7; border-radius: 14px; padding: 20px 24px; margin-bottom: 36px; font-size: 0.85rem; color: #2C3E6B; line-height: 1.7; }
+  .setup-banner code { background: rgba(26,39,68,0.08); padding: 2px 7px; border-radius: 5px; font-family: monospace; }
+
+  .footer { text-align: center; padding: 24px 20px; font-size: 0.78rem; color: var(--text-muted); border-top: 1px solid var(--border); background: var(--card); }
+  .footer span { color: var(--gold); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="logo-wrap">
+      <img src="79173.jpg" alt="Glasshouse Worship Logo" onerror="this.style.display='none'">
+    </div>
+    <h1>Glasshouse Worship<span>Musician &amp; Singer Registration</span></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">"Glasshouse Worship is prayerfully building a sound.<br>Join us if you're ready for alignment, growth, and spiritual depth."</p>
+    <div class="scroll-cta"><a href="#reg">Apply to Join ↓</a></div>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,60 C240,0 480,60 720,30 C960,0 1200,60 1440,20 L1440,60 Z" fill="#F5F7FA"/>
+</svg>
+
+<section class="form-section" id="reg">
+
+  <div class="setup-banner" id="setup-note">
+    <strong>⚙️ Setup:</strong> Replace <code>YOUR_GOOGLE_SCRIPT_URL</code> in the script with your deployed Apps Script URL. See the comment at the bottom of this file for the Apps Script code to paste.
+    <a href="#" onclick="document.getElementById('setup-note').style.display='none';return false;" style="margin-left:10px;color:var(--gold);font-weight:600;">Dismiss</a>
+  </div>
+
+  <div class="error-banner" id="error-banner">⚠️ Something went wrong. Please try again or contact us directly.</div>
+
+  <form id="reg-form" onsubmit="handleSubmit(event)" novalidate>
+
+    <div class="form-block">
+      <div class="block-header"><div class="block-icon">👤</div><h2>Personal Information</h2></div>
+      <div class="name-row">
+        <div class="field"><label>First Name <span class="req">*</span></label><input type="text" name="first_name" placeholder="First name" required></div>
+        <div class="field"><label>Last Name <span class="req">*</span></label><input type="text" name="last_name" placeholder="Last name" required></div>
+      </div>
+      <div class="field"><label>Email Address <span class="req">*</span></label><input type="email" name="email" placeholder="your@email.com" required></div>
+      <div class="field"><label>Phone Number</label><input type="tel" name="phone" placeholder="+1 (___) ___-____"></div>
+    </div>
+
+    <div class="form-block">
+      <div class="block-header"><div class="block-icon">✝️</div><h2>Spiritual Alignment</h2></div>
+      <div class="field">
+        <label>Are you a believer in Jesus Christ? <span class="req">*</span></label>
+        <div class="radio-group"><label><input type="radio" name="believer" value="Yes" required> Yes</label><label><input type="radio" name="believer" value="No"> No</label></div>
+      </div>
+      <div class="field">
+        <label>Do you believe in the authority and inspiration of the Scriptures? <span class="req">*</span></label>
+        <div class="radio-group"><label><input type="radio" name="scripture" value="Yes" required> Yes</label><label><input type="radio" name="scripture" value="Unsure"> Unsure</label><label><input type="radio" name="scripture" value="No"> No</label></div>
+      </div>
+      <div class="field">
+        <label>Are you actively involved in a local church? <span class="req">*</span></label>
+        <div class="radio-group column">
+          <label class="church-row"><input type="radio" name="church" value="Yes" required onchange="toggleChurch(this)"> Yes &nbsp;–&nbsp; Church name: <input type="text" name="church_name" id="church-name" placeholder="Name of your church" style="display:none;"></label>
+          <label><input type="radio" name="church" value="No" onchange="toggleChurch(this)"> No</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Do you have a personal prayer / devotional life? <span class="req">*</span></label>
+        <div class="radio-group"><label><input type="radio" name="devotional" value="Daily" required> Daily</label><label><input type="radio" name="devotional" value="Occasionally"> Occasionally</label><label><input type="radio" name="devotional" value="Rarely"> Rarely</label></div>
+      </div>
+      <div class="field"><label>Why do you want to be part of Glasshouse Worship? <span class="req">*</span></label><textarea name="why_join" placeholder="Share your heart…" required></textarea></div>
+    </div>
+
+    <div class="form-block">
+      <div class="block-header"><div class="block-icon">🎤</div><h2>Music Role</h2></div>
+      <div class="field">
+        <label>Are you applying as: <span class="req">*</span></label>
+        <div class="radio-group"><label><input type="radio" name="role" value="Singer" required onchange="toggleRole()"> Singer</label><label><input type="radio" name="role" value="Instrumentalist" onchange="toggleRole()"> Instrumentalist</label><label><input type="radio" name="role" value="Both" onchange="toggleRole()"> Both</label></div>
+      </div>
+      <div class="conditional" id="singer-section">
+        <div class="sub-block">
+          <h3>🎵 Singer Details</h3>
+          <div class="field"><label>Which voice part do you sing?</label><div class="radio-group"><label><input type="radio" name="voice_part" value="Soprano"> Soprano</label><label><input type="radio" name="voice_part" value="Alto"> Alto</label><label><input type="radio" name="voice_part" value="Tenor"> Tenor</label><label><input type="radio" name="voice_part" value="Baritone"> Baritone</label><label><input type="radio" name="voice_part" value="Bass"> Bass</label><label><input type="radio" name="voice_part" value="Not sure"> Not sure</label></div></div>
+          <div class="field"><label>Have you had any vocal training?</label><div class="radio-group"><label><input type="radio" name="vocal_training" value="Yes"> Yes</label><label><input type="radio" name="vocal_training" value="No"> No</label></div></div>
+          <div class="field"><label>Can you harmonize?</label><div class="radio-group"><label><input type="radio" name="harmonize" value="Yes"> Yes</label><label><input type="radio" name="harmonize" value="Sometimes"> Sometimes</label><label><input type="radio" name="harmonize" value="No"> No</label></div></div>
+        </div>
+      </div>
+      <div class="conditional" id="instrument-section">
+        <div class="sub-block" style="margin-top:14px;">
+          <h3>🎸 Instrumentalist Details</h3>
+          <div class="field"><label>Which instrument(s) do you play?</label><input type="text" name="instruments" placeholder="e.g. Piano, Guitar, Drums, Bass…"></div>
+          <div class="field"><label>How long have you been playing?</label><div class="radio-group"><label><input type="radio" name="years_playing" value="Less than 1 year"> Less than 1 year</label><label><input type="radio" name="years_playing" value="1–3 years"> 1–3 years</label><label><input type="radio" name="years_playing" value="3–5 years"> 3–5 years</label><label><input type="radio" name="years_playing" value="5+ years"> 5+ years</label></div></div>
+          <div class="field"><label>Can you play by: (select all that apply)</label><div class="check-group"><label><input type="checkbox" name="play_by" value="Ear"> Ear</label><label><input type="checkbox" name="play_by" value="Chord Charts"> Chord Charts</label><label><input type="checkbox" name="play_by" value="Sheet Music"> Sheet Music</label><label><input type="checkbox" name="play_by" value="All"> All</label></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <div class="block-header"><div class="block-icon">⏳</div><h2>Commitment</h2></div>
+      <div class="field"><label>Are you willing to attend rehearsals consistently? <span class="req">*</span></label><div class="radio-group"><label><input type="radio" name="rehearsals" value="Yes" required> Yes</label><label><input type="radio" name="rehearsals" value="No"> No</label></div></div>
+      <div class="field"><label>Are you open to spiritual discipline and accountability? <span class="req">*</span></label><div class="radio-group"><label><input type="radio" name="accountability" value="Yes" required> Yes</label><label><input type="radio" name="accountability" value="No"> No</label></div></div>
+      <div class="field"><label>Are you currently part of another music team?</label><div class="radio-group"><label><input type="radio" name="other_team" value="Yes"> Yes</label><label><input type="radio" name="other_team" value="No"> No</label></div></div>
+      <div class="field"><label>Availability – Days &amp; times available for rehearsals</label><textarea name="availability" placeholder="e.g. Saturday afternoons, Sunday evenings…" style="min-height:80px;"></textarea></div>
+    </div>
+
+    <div class="form-block">
+      <div class="block-header"><div class="block-icon">❤️</div><h2>Heart Posture</h2></div>
+      <div class="field"><label>How do you handle correction? <span class="req">*</span></label><textarea name="handle_correction" placeholder="Be honest and share from your heart…" required></textarea></div>
+      <div class="field"><label>Have you served in a worship team before?</label><div class="radio-group"><label><input type="radio" name="served_before" value="Yes"> Yes</label><label><input type="radio" name="served_before" value="No"> No</label></div></div>
+      <div class="field"><label>What does worship mean to you? <span class="req">*</span></label><textarea name="worship_meaning" placeholder="Share your understanding and experience of worship…" required></textarea></div>
+    </div>
+
+    <div class="submit-wrap">
+      <button type="submit" class="btn-submit" id="submit-btn">Submit Application</button>
+      <p class="submit-note">We will review your application prayerfully and reach out to you soon.</p>
+    </div>
+  </form>
+
+  <div id="success-msg">
+    <div class="check-circle">✓</div>
+    <h2>Application Received!</h2>
+    <p>Thank you for your heart and your honesty.<br>The Glasshouse Worship team will review your application and be in touch soon.<br><br>
+    <span class="verse">"Let everything that has breath praise the Lord." — Psalm 150:6</span></p>
+  </div>
+</section>
+
+<footer class="footer">&copy; 2025 <span>Glasshouse Worship</span> &nbsp;·&nbsp; Building a sound, one heart at a time.</footer>
+
+<script>
+  // 🔧 REPLACE WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+  const SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";
+
+  function toggleChurch(radio) {
+    const input = document.getElementById('church-name');
+    input.style.display = radio.value === 'Yes' ? 'inline-block' : 'none';
+    if (radio.value !== 'Yes') input.value = '';
+  }
+
+  function toggleRole() {
+    const val = document.querySelector('input[name="role"]:checked')?.value;
+    document.getElementById('singer-section').classList.toggle('active', val === 'Singer' || val === 'Both');
+    document.getElementById('instrument-section').classList.toggle('active', val === 'Instrumentalist' || val === 'Both');
+  }
+
+  document.addEventListener('change', function(e) {
+    if (e.target.type === 'radio') {
+      const group = e.target.closest('.radio-group');
+      if (group) { group.querySelectorAll('label').forEach(l => l.classList.remove('selected')); e.target.closest('label')?.classList.add('selected'); }
+    }
+    if (e.target.type === 'checkbox') { e.target.closest('label')?.classList.toggle('selected', e.target.checked); }
+  });
+
+  function collectFormData(form) {
+    const fd = new FormData(form), data = {};
+    ['first_name','last_name','email','phone','church_name','why_join','availability',
+     'instruments','handle_correction','worship_meaning','believer','scripture','church',
+     'devotional','role','voice_part','vocal_training','harmonize','years_playing',
+     'rehearsals','accountability','other_team','served_before'].forEach(k => data[k] = fd.get(k) || '');
+    data.play_by = fd.getAll('play_by').join(', ');
+    data.submitted_at = new Date().toLocaleString();
+    return data;
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('reg-form');
+    const btn  = document.getElementById('submit-btn');
+    const err  = document.getElementById('error-banner');
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Submitting…';
+    err.style.display = 'none';
+    const payload = collectFormData(form);
+    try {
+      if (SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL") {
+        await new Promise(r => setTimeout(r, 1200)); // demo mode
+      } else {
+        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      }
+      form.style.display = 'none';
+      const msg = document.getElementById('success-msg');
+      msg.style.display = 'block';
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch(error) {
+      btn.disabled = false; btn.innerHTML = 'Submit Application';
+      err.style.display = 'block'; err.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+</script>
+
+<!--
+════════════════════════════════════════════════════════
+  GOOGLE APPS SCRIPT — paste into your Sheet's editor
+  Extensions → Apps Script → New file → Paste → Deploy
+════════════════════════════════════════════════════════
+
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data  = JSON.parse(e.postData.contents);
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Submitted At","First Name","Last Name","Email","Phone",
+        "Believer","Scripture","Church","Church Name","Devotional","Why Join",
+        "Role","Voice Part","Vocal Training","Harmonize","Instruments",
+        "Years Playing","Play By","Rehearsals","Accountability","Other Team",
+        "Availability","Handle Correction","Served Before","Worship Meaning"]);
+    }
+    sheet.appendRow([
+      data.submitted_at, data.first_name, data.last_name, data.email, data.phone,
+      data.believer, data.scripture, data.church, data.church_name, data.devotional,
+      data.why_join, data.role, data.voice_part, data.vocal_training, data.harmonize,
+      data.instruments, data.years_playing, data.play_by, data.rehearsals,
+      data.accountability, data.other_team, data.availability,
+      data.handle_correction, data.served_before, data.worship_meaning
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({result:"success"})).setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({result:"error",message:err.toString()})).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return ContentService.createTextOutput("Glasshouse Worship form endpoint is active.");
+}
+-->
+</body>
+</html>
