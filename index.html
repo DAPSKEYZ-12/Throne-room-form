@@ -96,6 +96,23 @@
   .sub-block { background: #FAFBFF; border: 1.5px solid #E4EAF7; border-radius: 14px; padding: 24px; margin-top: 12px; }
   .sub-block h3 { font-family: 'Cinzel', serif; font-size: 0.88rem; letter-spacing: 0.1em; color: var(--navy-light); margin-bottom: 20px; text-transform: uppercase; }
 
+  /* Day/time picker grid */
+  .day-time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px; }
+  @media (max-width: 520px) { .day-time-grid { grid-template-columns: 1fr; } }
+  .day-time-grid select {
+    width: 100%; background: var(--input-bg); border: 1.5px solid var(--border);
+    border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif;
+    font-size: 0.9rem; padding: 11px 15px; outline: none; cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7A99' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .day-time-grid select:focus { border-color: var(--gold-light); background-color: #fff; box-shadow: 0 0 0 3px rgba(212,160,23,0.12); }
+  .day-time-grid label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; display: block; }
+
   .name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 520px) { .name-row { grid-template-columns: 1fr; } .form-block { padding: 24px 18px; } }
 
@@ -114,7 +131,6 @@
   .spinner { display: inline-block; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ✅ FIX: added id="error-banner" in the HTML below to match this selector */
   #error-banner { display: none; background: #FFF0F0; border: 1.5px solid #FFBBBB; color: #C0392B; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.875rem; font-weight: 500; }
 
   #success-msg { display: none; text-align: center; background: var(--card); border-radius: 24px; padding: 64px 32px; box-shadow: var(--shadow); border: 1px solid var(--border); }
@@ -147,11 +163,11 @@
 
 <section class="form-section" id="reg">
 
-  <!-- ✅ FIX: id="error-banner" added (was missing — caused null crash on submit) -->
   <div id="error-banner">⚠️ Something went wrong. Please check your connection and try again.</div>
 
   <form id="reg-form" novalidate>
 
+    <!-- PERSONAL INFORMATION -->
     <div class="form-block">
       <div class="block-header"><div class="block-icon">👤</div><h2>Personal Information</h2></div>
       <div class="name-row">
@@ -162,6 +178,7 @@
       <div class="field"><label>Phone Number</label><input type="tel" name="phone" placeholder="+1 (___) ___-____"></div>
     </div>
 
+    <!-- SPIRITUAL ALIGNMENT -->
     <div class="form-block">
       <div class="block-header"><div class="block-icon">✝️</div><h2>Spiritual Alignment</h2></div>
       <div class="field">
@@ -186,6 +203,7 @@
       <div class="field"><label>Why do you want to be part of Glasshouse Worship? <span class="req">*</span></label><textarea name="why_join" placeholder="Share your heart…" required></textarea></div>
     </div>
 
+    <!-- MUSIC ROLE -->
     <div class="form-block">
       <div class="block-header"><div class="block-icon">🎤</div><h2>Music Role</h2></div>
       <div class="field">
@@ -210,14 +228,56 @@
       </div>
     </div>
 
+    <!-- COMMITMENT -->
     <div class="form-block">
       <div class="block-header"><div class="block-icon">⏳</div><h2>Commitment</h2></div>
       <div class="field"><label>Are you willing to attend rehearsals consistently? <span class="req">*</span></label><div class="radio-group"><label><input type="radio" name="rehearsals" value="Yes" required> Yes</label><label><input type="radio" name="rehearsals" value="No"> No</label></div></div>
       <div class="field"><label>Are you open to spiritual discipline and accountability? <span class="req">*</span></label><div class="radio-group"><label><input type="radio" name="accountability" value="Yes" required> Yes</label><label><input type="radio" name="accountability" value="No"> No</label></div></div>
       <div class="field"><label>Are you currently part of another music team?</label><div class="radio-group"><label><input type="radio" name="other_team" value="Yes"> Yes</label><label><input type="radio" name="other_team" value="No"> No</label></div></div>
-      <div class="field"><label>Availability – Days &amp; times available for rehearsals</label><textarea name="availability" placeholder="e.g. Saturday afternoons, Sunday evenings…" style="min-height:80px;"></textarea></div>
+
+      <!-- ✅ UPDATED: Availability question with conditional day/time picker -->
+      <div class="field">
+        <label>Will you be available for any day of rehearsal? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="any_day_available" value="Yes" required onchange="toggleAvailability(this)"> Yes</label>
+          <label><input type="radio" name="any_day_available" value="No" onchange="toggleAvailability(this)"> No</label>
+        </div>
+      </div>
+
+      <div class="conditional" id="availability-section">
+        <div class="sub-block">
+          <h3>📅 Preferred Day &amp; Time</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:18px;line-height:1.6;">Let us know the day and time that works best for you so we can plan around your schedule.</p>
+          <div class="day-time-grid">
+            <div>
+              <label>Preferred Day</label>
+              <select name="preferred_day">
+                <option value="" disabled selected>Select a day…</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+                <option>Sunday</option>
+              </select>
+            </div>
+            <div>
+              <label>Preferred Time</label>
+              <select name="preferred_time">
+                <option value="" disabled selected>Select a time…</option>
+                <option>Morning (6am – 12pm)</option>
+                <option>Afternoon (12pm – 4pm)</option>
+                <option>Evening (4pm – 7pm)</option>
+                <option>Night (7pm – 10pm)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- HEART POSTURE -->
     <div class="form-block">
       <div class="block-header"><div class="block-icon">❤️</div><h2>Heart Posture</h2></div>
       <div class="field"><label>How do you handle correction? <span class="req">*</span></label><textarea name="handle_correction" placeholder="Be honest and share from your heart…" required></textarea></div>
@@ -239,7 +299,7 @@
   </div>
 </section>
 
-<footer class="footer">&copy; 2025 <span>Glasshouse Worship</span> &nbsp;·&nbsp; Building a sound, one heart at a time.</footer>
+<footer class="footer">&copy; 2026 <span>Glasshouse Worship</span> &nbsp;·&nbsp; Building a sound, one heart at a time.</footer>
 
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyzULXke9dXvFqBS5bQnOZOMiYHGzpZqssC-vBMZhQf_1S-4taDfReved5Vv_fdijHD/exec";
@@ -254,6 +314,16 @@
     const val = document.querySelector('input[name="role"]:checked')?.value;
     document.getElementById('singer-section').classList.toggle('active', val === 'Singer' || val === 'Both');
     document.getElementById('instrument-section').classList.toggle('active', val === 'Instrumentalist' || val === 'Both');
+  }
+
+  function toggleAvailability(radio) {
+    const section = document.getElementById('availability-section');
+    section.classList.toggle('active', radio.value === 'No');
+    // Clear selects when hiding
+    if (radio.value !== 'No') {
+      document.querySelector('select[name="preferred_day"]').selectedIndex = 0;
+      document.querySelector('select[name="preferred_time"]').selectedIndex = 0;
+    }
   }
 
   document.addEventListener('change', function(e) {
@@ -272,11 +342,21 @@
   function collectFormData() {
     const form = document.getElementById('reg-form');
     const fd = new FormData(form), data = {};
-    ['first_name','last_name','email','phone','church_name','why_join','availability',
+    ['first_name','last_name','email','phone','church_name','why_join',
      'instruments','handle_correction','worship_meaning','believer','scripture','church',
      'devotional','role','voice_part','vocal_training','harmonize','years_playing',
-     'rehearsals','accountability','other_team','served_before'].forEach(k => data[k] = fd.get(k) || '');
+     'rehearsals','accountability','other_team','served_before',
+     'any_day_available','preferred_day','preferred_time'
+    ].forEach(k => data[k] = fd.get(k) || '');
     data.play_by = fd.getAll('play_by').join(', ');
+    // Build a clean availability summary for the sheet
+    if (data.any_day_available === 'Yes') {
+      data.availability = 'Available any day';
+    } else if (data.preferred_day || data.preferred_time) {
+      data.availability = (data.preferred_day || '—') + ' · ' + (data.preferred_time || '—');
+    } else {
+      data.availability = 'No preference stated';
+    }
     data.submitted_at = new Date().toLocaleString();
     return data;
   }
@@ -302,12 +382,32 @@
     const btn  = document.getElementById('submit-btn');
     const err  = document.getElementById('error-banner');
 
-    // Validate required fields manually
-    const required = form.querySelectorAll('[required]');
+    // Validate required text/textarea/email fields
+    const required = form.querySelectorAll('input[required], textarea[required]');
     for (const field of required) {
+      if (field.type === 'radio') continue; // handled separately below
       if (!field.value.trim()) {
-        field.reportValidity();
         field.focus();
+        field.style.borderColor = '#C0392B';
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => field.style.borderColor = '', 2000);
+        return;
+      }
+    }
+
+    // Validate required radio groups
+    const radioGroups = ['believer','scripture','church','devotional','role','rehearsals','accountability','any_day_available'];
+    for (const name of radioGroups) {
+      if (!form.querySelector(`input[name="${name}"]:checked`)) {
+        const firstRadio = form.querySelector(`input[name="${name}"]`);
+        firstRadio?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Flash the group
+        const group = firstRadio?.closest('.radio-group') || firstRadio?.closest('.radio-group.column');
+        if (group) {
+          group.style.outline = '2px solid #C0392B';
+          group.style.borderRadius = '10px';
+          setTimeout(() => { group.style.outline = ''; }, 2000);
+        }
         return;
       }
     }
@@ -319,8 +419,6 @@
     const payload = collectFormData();
 
     try {
-      // no-cors means we never read the response body — that's fine.
-      // A network failure will throw and land in catch. Otherwise we assume success.
       await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
