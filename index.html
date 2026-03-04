@@ -18,7 +18,6 @@
   }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-  /* HERO */
   .hero {
     background: linear-gradient(160deg, var(--navy) 0%, #243158 60%, #1E3A6E 100%);
     position: relative; overflow: hidden; padding: 80px 20px 90px; text-align: center;
@@ -49,7 +48,6 @@
 
   .wave { display: block; width: 100%; height: 60px; margin-bottom: -2px; }
 
-  /* FORM */
   .form-section { max-width: 800px; margin: 0 auto; padding: 48px 20px 100px; }
 
   .form-block {
@@ -116,16 +114,14 @@
   .spinner { display: inline-block; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .error-banner { display: none; background: #FFF0F0; border: 1.5px solid #FFBBBB; color: #C0392B; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.875rem; font-weight: 500; }
+  /* ✅ FIX: added id="error-banner" in the HTML below to match this selector */
+  #error-banner { display: none; background: #FFF0F0; border: 1.5px solid #FFBBBB; color: #C0392B; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.875rem; font-weight: 500; }
 
   #success-msg { display: none; text-align: center; background: var(--card); border-radius: 24px; padding: 64px 32px; box-shadow: var(--shadow); border: 1px solid var(--border); }
   .check-circle { width: 80px; height: 80px; background: linear-gradient(135deg, var(--navy) 0%, #2C3E6B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 24px; box-shadow: 0 4px 24px rgba(26,39,68,0.25); }
   #success-msg h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--navy); margin-bottom: 14px; }
   #success-msg p { color: var(--text-muted); font-size: 1rem; line-height: 1.8; }
   .verse { color: var(--gold); font-style: italic; }
-
-  .setup-banner { background: #EEF2FF; border: 1.5px solid #C7D7F7; border-radius: 14px; padding: 20px 24px; margin-bottom: 36px; font-size: 0.85rem; color: #2C3E6B; line-height: 1.7; }
-  .setup-banner code { background: rgba(26,39,68,0.08); padding: 2px 7px; border-radius: 5px; font-family: monospace; }
 
   .footer { text-align: center; padding: 24px 20px; font-size: 0.78rem; color: var(--text-muted); border-top: 1px solid var(--border); background: var(--card); }
   .footer span { color: var(--gold); font-weight: 600; }
@@ -151,7 +147,10 @@
 
 <section class="form-section" id="reg">
 
-  <form id="reg-form" onsubmit="handleSubmit(event)" novalidate>
+  <!-- ✅ FIX: id="error-banner" added (was missing — caused null crash on submit) -->
+  <div id="error-banner">⚠️ Something went wrong. Please check your connection and try again.</div>
+
+  <form id="reg-form" novalidate>
 
     <div class="form-block">
       <div class="block-header"><div class="block-icon">👤</div><h2>Personal Information</h2></div>
@@ -227,7 +226,7 @@
     </div>
 
     <div class="submit-wrap">
-      <button type="submit" class="btn-submit" id="submit-btn">Submit Application</button>
+      <button type="button" class="btn-submit" id="submit-btn" onclick="handleSubmit()">Submit Application</button>
       <p class="submit-note">We will review your application prayerfully and reach out to you soon.</p>
     </div>
   </form>
@@ -243,7 +242,6 @@
 <footer class="footer">&copy; 2025 <span>Glasshouse Worship</span> &nbsp;·&nbsp; Building a sound, one heart at a time.</footer>
 
 <script>
-  // 🔧 REPLACE WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyzULXke9dXvFqBS5bQnOZOMiYHGzpZqssC-vBMZhQf_1S-4taDfReved5Vv_fdijHD/exec";
 
   function toggleChurch(radio) {
@@ -261,12 +259,18 @@
   document.addEventListener('change', function(e) {
     if (e.target.type === 'radio') {
       const group = e.target.closest('.radio-group');
-      if (group) { group.querySelectorAll('label').forEach(l => l.classList.remove('selected')); e.target.closest('label')?.classList.add('selected'); }
+      if (group) {
+        group.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
+        e.target.closest('label')?.classList.add('selected');
+      }
     }
-    if (e.target.type === 'checkbox') { e.target.closest('label')?.classList.toggle('selected', e.target.checked); }
+    if (e.target.type === 'checkbox') {
+      e.target.closest('label')?.classList.toggle('selected', e.target.checked);
+    }
   });
 
-  function collectFormData(form) {
+  function collectFormData() {
+    const form = document.getElementById('reg-form');
     const fd = new FormData(form), data = {};
     ['first_name','last_name','email','phone','church_name','why_join','availability',
      'instruments','handle_correction','worship_meaning','believer','scripture','church',
@@ -277,67 +281,58 @@
     return data;
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  function showSuccess() {
+    document.getElementById('reg-form').style.display = 'none';
+    const msg = document.getElementById('success-msg');
+    msg.style.display = 'block';
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function showError() {
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Application';
+    const err = document.getElementById('error-banner');
+    err.style.display = 'block';
+    err.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  async function handleSubmit() {
     const form = document.getElementById('reg-form');
     const btn  = document.getElementById('submit-btn');
     const err  = document.getElementById('error-banner');
-    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    // Validate required fields manually
+    const required = form.querySelectorAll('[required]');
+    for (const field of required) {
+      if (!field.value.trim()) {
+        field.reportValidity();
+        field.focus();
+        return;
+      }
+    }
+
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Submitting…';
     err.style.display = 'none';
-    const payload = collectFormData(form);
+
+    const payload = collectFormData();
+
     try {
-      if (SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_URL") {
-        await new Promise(r => setTimeout(r, 1200)); // demo mode
-      } else {
-        await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-      }
-      form.style.display = 'none';
-      const msg = document.getElementById('success-msg');
-      msg.style.display = 'block';
-      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } catch(error) {
-      btn.disabled = false; btn.innerHTML = 'Submit Application';
-      err.style.display = 'block'; err.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // no-cors means we never read the response body — that's fine.
+      // A network failure will throw and land in catch. Otherwise we assume success.
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      showSuccess();
+    } catch (networkError) {
+      console.error('Submit error:', networkError);
+      showError();
     }
   }
 </script>
-
-<!--
-════════════════════════════════════════════════════════
-  GOOGLE APPS SCRIPT — paste into your Sheet's editor
-  Extensions → Apps Script → New file → Paste → Deploy
-════════════════════════════════════════════════════════
-
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var data  = JSON.parse(e.postData.contents);
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["Submitted At","First Name","Last Name","Email","Phone",
-        "Believer","Scripture","Church","Church Name","Devotional","Why Join",
-        "Role","Voice Part","Vocal Training","Harmonize","Instruments",
-        "Years Playing","Play By","Rehearsals","Accountability","Other Team",
-        "Availability","Handle Correction","Served Before","Worship Meaning"]);
-    }
-    sheet.appendRow([
-      data.submitted_at, data.first_name, data.last_name, data.email, data.phone,
-      data.believer, data.scripture, data.church, data.church_name, data.devotional,
-      data.why_join, data.role, data.voice_part, data.vocal_training, data.harmonize,
-      data.instruments, data.years_playing, data.play_by, data.rehearsals,
-      data.accountability, data.other_team, data.availability,
-      data.handle_correction, data.served_before, data.worship_meaning
-    ]);
-    return ContentService.createTextOutput(JSON.stringify({result:"success"})).setMimeType(ContentService.MimeType.JSON);
-  } catch(err) {
-    return ContentService.createTextOutput(JSON.stringify({result:"error",message:err.toString()})).setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function doGet(e) {
-  return ContentService.createTextOutput("Glasshouse Worship form endpoint is active.");
-}
--->
 </body>
 </html>
